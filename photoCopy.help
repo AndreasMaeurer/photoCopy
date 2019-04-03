@@ -1,0 +1,15 @@
+photocCopy 0.0.01, Scan and Immediately Print with one single click
+Usage: photocCopy [OPTION]
+
+Arguments are optional.
+
+Startup:
+  -V,  --version                   display the version of photocCopy and exit
+  -h,  --help                      print this help
+
+Devices:
+  -s,  --show                      show all available Printers and Scanners
+  -sp, --show-printers             show all available Printers
+  -ss, --show-scanners             show all availabe Scanners
+  
+email bug reports and suggestions to <andreas.maeurer@gmail.com>
