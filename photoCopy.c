@@ -49,6 +49,7 @@ Future:
 	* write code to measure how long it took to Scan the Document.   (Maybe measure how long it takes to print??)
 	* add a debug mode to the code?  (boolean named debug... If TRUE then all the debug statements are executed.  Else not...
 	* how can you get the info from here: http://localhost:631/printers/   Through the Command Line?
+	* Write a man page for this?
 	* 
 ***********************************************************************/
 
@@ -57,24 +58,35 @@ Future:
 #include <strings.h>
 #include <string.h>
 
+char currentVersion[100] = "photoCopy Version: 0.01beta";				//Adjust the version String here and only here.
+
 int version() {
-	system("echo photoCopy Version: 0.0.01beta");
+	printf("%s \n",currentVersion );  // for debugging
 }
 
 int help() {
+	version();
 	system("cat /home/ernesto/from/Andreas/photoCopy/photoCopy.help");
 }
 
-int show() {
-	system("echo FIXME If this part was completed yet, then you would be getting the list of all printers and scanners here");
-}
-
 int showPrinters() {
-	system("echo FIXME If this part was completed yet, then you would be getting the list of all PRINTERS here");
+	system("lpstat -p");
 }
 
 int showScanners() {
-	system("echo FIXME If this part was completed yet, then you would be getting the list of all SCANNERS here");
+	// Note that this really only works when the scanner is turned ON.
+	// If you run this and the scanner is off, the output is messy
+	// Is there a way to handle this better?
+	system("echo Looking for Scanners Please stand by.  This may take a while.");
+	system("echo Please make sure your Scanner is turned on!");
+	system("scanimage -L");
+}
+
+int show() {
+	printf("Printers: \n");
+	showPrinters();
+	printf("Scanners: \n");
+	showScanners();
 }
 
 int normalExecution() {
@@ -114,30 +126,29 @@ int main(int argc, char *argv[]) {
 		return 0; 
 	}	
 	// IF the argument is -v or -V or --version THEN print the Version to the command prompt.
-	if ( (strcmp(argv[1],s00) == 0) || (strcmp(argv[1],s01) == 0) || (strcmp(argv[1],s02) == 0) ) {	//-v -V --version
-		printf("version has been reached.\n");  // for debugging
+	if ( (strcmp(argv[1],s00) == 0) || (strcmp(argv[1],s01) == 0) || (strcmp(argv[1],s02) == 0) ) {	//-v -V --version		
+		printf("\n");  // One blank line.  Makes the output look nicer.
 		version();
 		return 0;
 	}	
 	//show
 	if ( (strcmp(argv[1],s03) == 0) || (strcmp(argv[1],s04) == 0) ) {	//-s --show
-		printf("show has been reached.\n");  // for debugging
+		//printf("show has been reached.\n");  // for debugging
 		show();
 		return 0;
 	}	
 	//show Printer
 	if ( (strcmp(argv[1],s05) == 0) || (strcmp(argv[1],s06) == 0) ) {	//-sp --show-printers
-		printf("show PRINTERS has been reached.\n");  // for debugging
 		showPrinters();
 		return 0;
 	}	
 	//show Scanner
 	if ( (strcmp(argv[1],s07) == 0) || (strcmp(argv[1],s08) == 0) ) {	//-ss --show-scanners
-		printf("show SCANNERS has been reached.\n");  // for debugging
 		showScanners();
 		return 0;
 	}
 	else {
+		printf("\n");  // One blank line.  Makes the output look nicer.
 		help();
 		return 0;
 	}
